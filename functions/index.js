@@ -7,7 +7,11 @@ const { getFilmaffinityReview } = require('./scrapper-page');
 const { initialize, getCollection, updateDocumentFromCollection } = require('./db/mongodb');
 
 exports.scrapper = functions.runWith(config.runtimeOpts).region(config.runtimeOpts.region).https.onRequest(async (req, res) => {
-  const index = req.query.index;
+  const index = req.query.index || null;
+
+  if (!index) {
+    res.json({ 'error':  'You should add one index query for scrapper the film.', 'example': '[function_path]/scrapper?index=100000'});
+  }
 
   const mongodb = await initialize();
   const mongodbCollection = await getCollection(mongodb, config.mongodb.database, config.mongodb.collection);
