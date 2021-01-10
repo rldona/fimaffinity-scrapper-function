@@ -1,0 +1,10 @@
+{
+  "emulators": {
+    "functions": {
+      "port": 5002
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}
