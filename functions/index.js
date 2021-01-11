@@ -7,6 +7,7 @@ const { getFilmaffinityReview } = require('./scrapper-page');
 const { initialize, getCollection, updateDocumentFromCollection } = require('./db/mongodb');
 
 exports.scrapper = functions.runWith(config.runtimeOpts).region(config.runtimeOpts.region).https.onRequest(async (req, res) => {
+
   const index = req.query.index || null;
 
   if (!index) {
@@ -61,4 +62,5 @@ exports.scrapper = functions.runWith(config.runtimeOpts).region(config.runtimeOp
   } finally {
     await browser.close();
   }
+
 });
