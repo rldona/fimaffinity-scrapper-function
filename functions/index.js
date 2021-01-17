@@ -1,12 +1,13 @@
 const functions = require('firebase-functions');
 const puppeteer = require('puppeteer');
 
-const { config, spanish } = require('./config');
+const { config, translations } = require('./config');
 const { getUrl } = require('./utils');
 const { getFilmaffinityReview } = require('./scrapper-page');
 
 exports.scrapper = functions.runWith(config.runtimeOpts).region(config.runtimeOpts.region).https.onRequest(async (req, res) => {
   const index = parseInt(req.query.index) || null;
+  const language = req.query.language || 'es';
 
   if (!index) {
     res.send(null);
@@ -23,17 +24,17 @@ exports.scrapper = functions.runWith(config.runtimeOpts).region(config.runtimeOp
   await page.setViewport({ width: config.view.width, height: config.view.height });
   await page.setRequestInterception(config.setRequestInterception);
 
-  page.on(spanish.REQUEST, (request) => {
-    if (request.resourceType() === spanish.DOCUMENT) {
+  page.on(translations.es.REQUEST, (request) => {
+    if (request.resourceType() === translations.es.DOCUMENT) {
       request.continue();
     } else {
       request.abort();
     }
   });
 
-  const url = getUrl(index);
+  const url = getUrl(index, language);
 
-  let browserLoad = await page.goto(url, { waitUntil: spanish.LOAD, timeout: 0 });
+  let browserLoad = await page.goto(url, { waitUntil: translations.es.LOAD, timeout: 0 });
 
   if (browserLoad.status() === 200) {
     const review = await getFilmaffinityReview(page);

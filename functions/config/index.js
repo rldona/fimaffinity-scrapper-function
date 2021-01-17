@@ -1,9 +1,9 @@
-const language = 'es';
-
-const spanish = {
-  'REQUEST': 'request',
-  'DOCUMENT': 'document',
-  'LOAD': 'load'
+const translations = {
+  es: {
+    'REQUEST': 'request',
+    'DOCUMENT': 'document',
+    'LOAD': 'load'
+  }
 }
 
 const config = {
@@ -12,8 +12,6 @@ const config = {
     timeoutSeconds: 60,
     memory: '2GB'
   },
-  language: language,
-  databaseURL: 'https://filmaffinity-api.firebaseio.com',
   headless: true,
   ignoreHTTPSErrors: true,
   args: {
@@ -28,6 +26,6 @@ const config = {
 }
 
 module.exports = {
-  spanish,
+  translations,
   config
 };
